@@ -4,7 +4,21 @@
  */
 package etterem;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JTextArea;
 import javax.swing.ListModel;
 
 /**
@@ -38,10 +52,10 @@ public class EtlapSzerk extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         Hozzaad = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        PirosAsztalBtn = new javax.swing.JRadioButton();
+        ZoldAsztalBtn = new javax.swing.JRadioButton();
+        KekAsztalBtn = new javax.swing.JRadioButton();
+        FeherAsztalBtn = new javax.swing.JRadioButton();
         Megrendeles = new javax.swing.JButton();
         HozzaadottPanel = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -62,17 +76,18 @@ public class EtlapSzerk extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        RendPirosA = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        RendZoldA = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
+        RendKekA = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
+        RendFeherA = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        FajlbaIrBtn = new javax.swing.JButton();
 
         jMenu1.setText("jMenu1");
 
@@ -117,27 +132,27 @@ public class EtlapSzerk extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Asztalok"));
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Piros");
+        buttonGroup1.add(PirosAsztalBtn);
+        PirosAsztalBtn.setText("Piros");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Zöld");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(ZoldAsztalBtn);
+        ZoldAsztalBtn.setText("Zöld");
+        ZoldAsztalBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
+                ZoldAsztalBtnActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Kék");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(KekAsztalBtn);
+        KekAsztalBtn.setText("Kék");
+        KekAsztalBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
+                KekAsztalBtnActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setText("Fehér");
+        buttonGroup1.add(FeherAsztalBtn);
+        FeherAsztalBtn.setText("Fehér");
 
         Megrendeles.setText("Megrendelés");
         Megrendeles.addActionListener(new java.awt.event.ActionListener() {
@@ -154,23 +169,23 @@ public class EtlapSzerk extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Megrendeles)
-                    .addComponent(jRadioButton4)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton1))
+                    .addComponent(FeherAsztalBtn)
+                    .addComponent(KekAsztalBtn)
+                    .addComponent(ZoldAsztalBtn)
+                    .addComponent(PirosAsztalBtn))
                 .addContainerGap(109, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jRadioButton1)
+                .addComponent(PirosAsztalBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(ZoldAsztalBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jRadioButton3)
+                .addComponent(KekAsztalBtn)
                 .addGap(12, 12, 12)
-                .addComponent(jRadioButton4)
+                .addComponent(FeherAsztalBtn)
                 .addGap(18, 18, 18)
                 .addComponent(Megrendeles)
                 .addContainerGap(66, Short.MAX_VALUE))
@@ -207,7 +222,7 @@ public class EtlapSzerk extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         ÉtlapLayout.setVerticalGroup(
             ÉtlapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +233,7 @@ public class EtlapSzerk extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HozzaadottPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Étlap", Étlap);
@@ -349,26 +364,26 @@ public class EtlapSzerk extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Étlap szerkesztő", jPanel1);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        RendPirosA.setColumns(20);
+        RendPirosA.setRows(5);
+        jScrollPane1.setViewportView(RendPirosA);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        RendZoldA.setColumns(20);
+        RendZoldA.setRows(5);
+        jScrollPane2.setViewportView(RendZoldA);
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane3.setViewportView(jTextArea3);
+        RendKekA.setColumns(20);
+        RendKekA.setRows(5);
+        jScrollPane3.setViewportView(RendKekA);
 
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane4.setViewportView(jTextArea4);
+        RendFeherA.setColumns(20);
+        RendFeherA.setRows(5);
+        jScrollPane4.setViewportView(RendFeherA);
 
         jLabel3.setText("Kék");
 
@@ -378,49 +393,62 @@ public class EtlapSzerk extends javax.swing.JFrame {
 
         jLabel6.setText("Fehér");
 
+        FajlbaIrBtn.setText("Kiírás");
+        FajlbaIrBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FajlbaIrBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(22, 22, 22))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(FajlbaIrBtn)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(FajlbaIrBtn)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Rendelés", jPanel6);
@@ -431,7 +459,7 @@ public class EtlapSzerk extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -454,28 +482,46 @@ public class EtlapSzerk extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+    private void ZoldAsztalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZoldAsztalBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
+    }//GEN-LAST:event_ZoldAsztalBtnActionPerformed
 
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
+    private void KekAsztalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KekAsztalBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
+    }//GEN-LAST:event_KekAsztalBtnActionPerformed
 
     private void MegrendelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MegrendelesActionPerformed
-       
+        List<String> kivalasztott = jList1.getSelectedValuesList();
+        if (!kivalasztott.isEmpty()) {
+            StringBuilder etelek = new StringBuilder();
+            for (String etel : kivalasztott) {
+                etelek.append(etel).append("\n");
+            }
+            asztalEldonto(etelek.toString());
+        }
+
+
     }//GEN-LAST:event_MegrendelesActionPerformed
 
     private void HozzaadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HozzaadActionPerformed
-     ListModel<String> listModel = jList1.getModel();
-            int size = listModel.getSize();
-            for (int i = 0; i < size; i++) {
-                String element = listModel.getElementAt(i);
-                HozzaadottArea.setText(element);
+        List<String> kivalasztott = jList1.getSelectedValuesList();
+        if (!kivalasztott.isEmpty()) {
+            StringBuilder etelek = new StringBuilder();
+            for (String etel : kivalasztott) {
+                etelek.append(etel).append("\n");
             }
-        
-        
+            HozzaadottArea.append(etelek.toString());
+            MegrendelesActionPerformed(evt);
+        }
     }//GEN-LAST:event_HozzaadActionPerformed
+
+    private void FajlbaIrBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FajlbaIrBtnActionPerformed
+        try {
+            fajlKiir();
+        } catch (IOException ex) {
+            Logger.getLogger(EtlapSzerk.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_FajlbaIrBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -512,11 +558,54 @@ public class EtlapSzerk extends javax.swing.JFrame {
         });
     }
 
+    private void fajlKiir() throws IOException {
+        String fajlnev = "rendeles.txt";
+        Path path = Paths.get(fajlnev);
+        if (Files.exists(path)) {
+            Files.delete(path);
+        }
+        String pirosRendeles = RendPirosA.getText();
+        String zoldRendeles = RendZoldA.getText();
+        String kekRendeles = RendKekA.getText();
+        String feherRendeles = RendFeherA.getText();
+
+        String kimenet = "Piros asztal rendelései:\n" + pirosRendeles + "\n\n"
+                + "Zöld asztal rendelései:\n" + zoldRendeles + "\n\n"
+                + "Kék asztal rendelései:\n" + kekRendeles + "\n\n"
+                + "Fehér asztal rendelései:\n" + feherRendeles + "\n";
+        Files.write(path, kimenet.getBytes());
+
+    }
+
+    private void asztalEldonto(String rendeles) {
+        if (PirosAsztalBtn.isSelected()) {
+            RendPirosA.append(rendeles);
+        }
+        if (ZoldAsztalBtn.isSelected()) {
+            RendZoldA.append(rendeles);
+        }
+        if (KekAsztalBtn.isSelected()) {
+            RendKekA.append(rendeles);
+        }
+        if (FeherAsztalBtn.isSelected()) {
+            RendFeherA.append(rendeles);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton FajlbaIrBtn;
+    private javax.swing.JRadioButton FeherAsztalBtn;
     private javax.swing.JButton Hozzaad;
     private javax.swing.JTextArea HozzaadottArea;
     private javax.swing.JPanel HozzaadottPanel;
+    private javax.swing.JRadioButton KekAsztalBtn;
     private javax.swing.JButton Megrendeles;
+    private javax.swing.JRadioButton PirosAsztalBtn;
+    private javax.swing.JTextArea RendFeherA;
+    private javax.swing.JTextArea RendKekA;
+    private javax.swing.JTextArea RendPirosA;
+    private javax.swing.JTextArea RendZoldA;
+    private javax.swing.JRadioButton ZoldAsztalBtn;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -539,10 +628,6 @@ public class EtlapSzerk extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -550,10 +635,6 @@ public class EtlapSzerk extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextArea jTextArea4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel Étlap;
